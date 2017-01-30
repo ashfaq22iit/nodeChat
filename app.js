@@ -117,13 +117,8 @@ app.get('/', function(req, res){
 
 });
 
-// var port = (process.env.PORT || 3005);
+var port = (process.env.PORT || 3005);
 
-// http.listen(port, function(req, res){
-// 	console.log('server is ', req);
-// });
-
-
-http.listen(3005, function(){
-	console.log('server is listening at 3005');
+http.listen(port, function(req, res){
+	console.log('server is ', req);
 });
