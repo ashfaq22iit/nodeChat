@@ -13,15 +13,15 @@ var io = require('socket.io')(http);
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-	host:'localhost',
-	user: 'root',
-	password:'',
-	database:'chatdemo'
+	// host:'localhost',
+	// user: 'root',
+	// password:'',
+	// database:'chatdemo'
 
-	// host:'us-cdbr-iron-east-04.cleardb.net',
-	// user: 'b0c0d1b87dfc8a',
-	// password:'a109cca2',
-	// database:'heroku_7561fb31d51e918'
+	host:'us-cdbr-iron-east-04.cleardb.net',
+	user: 'b0c0d1b87dfc8a',
+	password:'a109cca2',
+	database:'heroku_7561fb31d51e918'
 
 });
 
@@ -83,7 +83,7 @@ io.on('connection', function(socket){
 });
 
 	function store_chat(name, msg){
-		connection.query('INSERT INTO messages (name, message) values ("'+name+'","'+msg+'")' , function(err,result){
+		connection.query('INSERT INTO heroku_7561fb31d51e918.messages (name, message) values ("'+name+'","'+msg+'")' , function(err,result){
 			if(err){
 				console.log('insert query error');
 			}else{
