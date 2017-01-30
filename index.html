@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <title>Node Js Chat Demo</title>
+    <!-- BOOTSTRAP CORE STYLE CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+<style type="text/css">
+.panel-body{
+    height: 300px;
+    overflow: scroll;
+}
+.message{
+    font-size: 10px;
+}
+.sender{
+    font-style: italic;
+    font-weight: bold;
+    font-size: 13px;
+}
+</style>
+
+
+</head>
+<body style="font-family:Verdana">
+  <div class="container">
+<div class="row " style="padding-top:40px;">
+    <h3 class="text-center" >Node Js Chat Demo </h3>
+    <br /><br />
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                RECENT CHAT HISTORY
+            </div>
+            <div class="panel-body" id="panelbody">
+              <div class="media-list" id="messages">
+                <!-- <li class="media">
+                    <div class="media-body">
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-circle " src="assets/img/user.png" />
+                            </a>
+                            <div class="media-body" >
+                                Donec sit amet ligula enim. Duis vel condimentum massa.
+
+Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim. 
+                                Duis vel condimentum massa.
+                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                <br />
+                               <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
+                                <hr />
+                            </div>
+                        </div>
+
+                    </div>
+                </li> -->
+
+
+            
+            </div>
+            </div>
+            <div class="panel-footer">
+              <form action="">
+                <div class="input-group" id="chat" style="display:none">  
+                    <input type="text" id="m" class="form-control" placeholder="Enter Message" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info" id="send" type="submit">SEND</button>
+                    </span>
+                </div>
+              </form>
+                <div class="input-group" id="joinform">
+                    <input type="text" class="form-control" id="name" placeholder="What's your name?" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info" id="join" type="button">Join</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="col-md-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+               ONLINE USERS
+            </div>
+            <div class="panel-body">
+                <ul class="media-list">
+
+                                    <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.png" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Alex Deo | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+     <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.gif" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Jhon Rexa | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                    <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.png" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Alex Deo | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                    <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.gif" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Jhon Rexa | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                     <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.png" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Alex Deo | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+     <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.gif" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Jhon Rexa | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                    <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.png" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Alex Deo | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                    <li class="media">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.gif" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5>Jhon Rexa | User </h5>
+                                                    
+                                                   <small class="text-muted">Active From 3 hours</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                </div>
+            </div>
+        
+    </div> -->
+
+</div>
+  </div>
+
+<script>
+$(document).ready(function(){
+  var socket = io();
+  $('form').submit(function(){
+    if($('#m').val() != ''){
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      $("#m").focus();
+    }
+    return false;
+  });
+
+  // $("#msg").keypress(function(e){
+  //     if(e.which == 13) {
+  //       var msg = $("#msg").val();
+  //       socket.emit("send", msg);
+  //       $("#msg").val("");
+  //     }
+  //   });
+ 
+
+
+
+  socket.on('chat message', function(msg){ 
+    //$('#messages').append($('<li>').text(msg));
+     var msgHtml = '<li class="media">'
+                    +'<div class="media-body">'
+                        +'<div class="media">'
+                            +'<a class="pull-left" href="#">'
+                                //+'<img class="media-object img-circle " src="assets/img/user.png" />'
+                            +'</a>'
+                            +'<div class="media-body" >'
+                            +msg
+                                //+'<br />'
+                               //+'<small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>'
+                                +'<hr />'
+                            +'</div>'
+                        +'</div>'
+
+                    +'</div>'
+                +'</li>';
+    $('#messages').append(msgHtml);
+  });
+
+  $("#join").click(function(){
+      var name = $("#name").val();
+      if (name != "") {
+        socket.emit("join", name);
+        //$("#login").detach();
+        $("#chat").show();
+        $("#joinform").hide();
+        $("#m").focus();
+        ready = true;
+      }
+    });
+
+  socket.on('chatHistory',function(rows){
+    console.log('chatHistory emitted successfully.');
+    console.log('Length: ', rows.length);
+
+        for(var i=0; i<rows.length; i++){
+            console.log('name: ',rows[i]['name']+': '+rows[i]['message']);
+            var msg = '<span style="font-weight: bold;font-size: 13px;">'+ rows[i]['name']+'</span> : <span +class"message"  style="font-size: 10px;">'+rows[i]['message']+'</span>';
+
+            var msgHtml = '<div class="media chatmsg">'
+                    +'<div class="media-body">'
+                        +'<div class="media">'
+                            +'<a class="pull-left" href="#">'
+                                //+'<img class="media-object img-circle " src="assets/img/user.png" />'
+                            +'</a>'
+                            +'<div class="media-body" >'
+                            +msg
+                                //+'<br />'
+                               //+'<small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>'
+                                +'<hr />'
+                            +'</div>'
+                        +'</div>'
+
+                    +'</div>'
+                +'</div>';
+            $('#messages').append(msgHtml);
+        }
+        $('#messages').append('<div id="end"></div>');
+
+
+  });
+
+
+  socket.on('test',function(){
+    console.log('TEST emitted successfully.');
+
+  });
+
+
+
+    // var height = 0;
+    // $('#messages div.chatmsg').each(function(i, value){
+    //     height += parseInt($(this).height());
+    // });
+
+    // height += '';
+    // height = 180;
+    // console.log('height: '+height);
+
+    // $('#messages').animate({scrollTop: height});
+
+
+  //auto scroll to last msg in chat
+    const messages = document.getElementById('panelbody');
+
+    // function appendMessage() {
+    //     const message = document.getElementsByClassName('message')[0];
+    //   const newMessage = message.cloneNode(true);
+    //   messages.appendChild(newMessage);
+    // }
+
+    function getMessages() {
+        // Prior to getting your messages.
+      shouldScroll = messages.scrollTop + messages.clientHeight === messages.scrollHeight;
+      /*
+       * Get your messages, we'll just simulate it by appending a new one syncronously.
+       */
+      //appendMessage();
+      // After getting your messages.
+      if (!shouldScroll) {
+        scrollToBottom();
+      }
+    }
+
+    function scrollToBottom() {
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    scrollToBottom();
+
+    setInterval(getMessages, 100);
+
+
+    // setTimeout(function(){ 
+    //     $('html, body #messages').animate({ scrollTop: $('#end').offset().top }, 'slow');
+    //  }, 3000);
+
+    // var chatbox = $('#end');
+    // if (chatbox.length) { alert('found');
+    //     $('#messages').animate({ scrollTop: $('#end').offset().top }, 'slow');
+    // }
+    
+    //$('#panelbody').animate({ scrollTop: $('#end').offset().top }, 'slow');
+     
+
+
+  }); //end document ready
+
+</script>
+
+</body>
+</html>
