@@ -117,6 +117,8 @@ app.get('/', function(req, res){
 
 });
 
-http.listen(3000, function(){
-	console.log('server is listening at port 3000.');
+var port = (process.env.PORT || 3005);
+
+http.listen(port, function(req, res){
+	console.log('server is ', req);
 });
