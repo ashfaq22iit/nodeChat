@@ -123,15 +123,15 @@ app.get('/', function(req, res){
 
 });
 
-// var port = (process.env.PORT || 3005);
+var port = (process.env.PORT || 3005);
 
-// http.listen(port, function(req, res){
-// 	console.log('server is ', req);
-// });
-
-
-var port = process.env.PORT || 8000;
-
-server.listen(port, function() {
-    console.log("App is running on port " + port);
+http.listen(port, function(req, res){
+	console.log(port+' server is running on port: ', req);
 });
+
+
+// var port = process.env.PORT || 8000;
+
+// server.listen(port, function() {
+//     console.log("App is running on port " + port);
+// });
