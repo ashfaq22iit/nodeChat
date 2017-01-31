@@ -43,7 +43,7 @@ io.on('connection', function(socket){
 
 	console.log('a new user connected.');
 
-	connection.query('select * from messages ORDER BY id DESC', function(err,rows){
+	connection.query('select * from messages ORDER BY id ASC', function(err,rows){
 			if(!err){		
 				io.emit('chatHistory', rows);
 				//console.log('data found : ', rows);
