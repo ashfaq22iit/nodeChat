@@ -12,7 +12,8 @@ app.use(express.static(__dirname + '/public'));
 var io = require('socket.io')(http);
 
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+//var connection = mysql.createConnection({
+var pool = mysql.createPool({
 	// host:'localhost',
 	// user: 'root',
 	// password:'',
@@ -25,7 +26,7 @@ var connection = mysql.createConnection({
 
 });
 
-	connection.connect(function(err){
+	pool.connect(function(err){
 	if(!err) {
 	    console.log("Database is connected ... nn");    
 	} else {
@@ -43,7 +44,7 @@ io.on('connection', function(socket){
 
 	console.log('a new user connected.');
 
-	connection.query('select * from messages ORDER BY id ASC', function(err,rows){
+	pool.query('select * from messages ORDER BY id ASC', function(err,rows){
 			if(!err){		
 				io.emit('chatHistory', rows);
 				//console.log('data found : ', rows);
@@ -83,7 +84,7 @@ io.on('connection', function(socket){
 });
 
 	function store_chat(name, msg){
-		connection.query('INSERT INTO heroku_7561fb31d51e918.messages (name, message) values ("'+name+'","'+msg+'")' , function(err,result){
+		pool.query('INSERT INTO heroku_7561fb31d51e918.messages (name, message) values ("'+name+'","'+msg+'")' , function(err,result){
 			if(err){
 				console.log('insert query error');
 			}else{
@@ -92,18 +93,6 @@ io.on('connection', function(socket){
 		});
 	}
 
-
-	// function get_chatHistory(input, res){
-	// 	connection.query('select * from messages', function(err,rows,fields){
-	// 		if(!err){
-	// 				res.rows;
-				
-	// 			//console.log('data found : ', rows);
-	// 		}else{
-	// 			console.log('query error');
-	// 		}
-	// 	});
-	// }
 
 
 app.get('/', function(req, res){
