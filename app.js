@@ -13,7 +13,7 @@ var io = require('socket.io')(http);
 
 var mysql = require('mysql');
 //var connection = mysql.createConnection({
-var pool = mysql.createPool({
+var pool  = mysql.createPool({
 	// host:'localhost',
 	// user: 'root',
 	// password:'',
@@ -26,14 +26,19 @@ var pool = mysql.createPool({
 
 });
 
-	pool.connect(function(err){
-	if(!err) {
-	    console.log("Database is connected ... nn");    
-	} else {
-	    console.log("Error connecting database ... nn");    
-	}
-	});
+	// pool.connect(function(err){
+	// if(!err) {
+	//     console.log("Database is connected ... nn");    
+	// } else {
+	//     console.log("Error connecting database ... nn");    
+	// }
+	// });
 
+
+pool.getConnection(function(err, connection) {  
+  if(err){console.log('Database Connection failed')}
+  console.log("Database is connected ... nn");  
+});
 
 
 
@@ -69,17 +74,7 @@ io.on('connection', function(socket){
 	    store_chat(people[socket.id], msg);
 
 	   //socket.broadcast.emit('chat message', msg);
-	  });
-
-	
-	
-	
-	// socket.on('connect', function(){
-	// 	io.emit('test', 'Hello world');
-	// });
-
-	
-	
+	  });	
 	
 });
 
