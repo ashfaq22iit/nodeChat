@@ -14,15 +14,15 @@ var io = require('socket.io')(http);
 var mysql = require('mysql');
 //var connection = mysql.createConnection({
 var pool  = mysql.createPool({
-	// host:'localhost',
-	// user: 'root',
-	// password:'',
-	// database:'chatdemo'
+	host:'localhost',
+	user: 'root',
+	password:'',
+	database:'chatdemo'
 
-	host:'us-cdbr-iron-east-04.cleardb.net',
-	user: 'b0c0d1b87dfc8a',
-	password:'a109cca2',
-	database:'heroku_7561fb31d51e918'
+	// host:'us-cdbr-iron-east-04.cleardb.net',
+	// user: 'b0c0d1b87dfc8a',
+	// password:'a109cca2',
+	// database:'heroku_7561fb31d51e918'
 
 });
 
@@ -59,6 +59,28 @@ io.on('connection', function(socket){
 		});
 
 	socket.on('join',function(name){
+		console.log('socket.id', socket.id);
+		pool.query('SELECT * from user WHERE name = '+ '"name"' , function(err,result){
+			console.log(result.length , 'result.length');
+			if(result.length < 1 ){
+				console.log('herr');
+				pool.query('INSERT INTO user (name, socket_id) values ("'+name+'","'+socket.id+'")' , function(err,result){
+					if(err){
+						console.log('insert query error');
+					}else{
+						console.log('record inserted successfully');
+						pool.query('SELECT * from user ' , function(err,result){
+							console.log('err,result', err,result);
+							  io.emit('userList', result)
+						})
+					}
+				});
+			}else{
+				console.log('user already exist.');
+			}
+			console.log(err, '*******' ,result);
+		})
+		
 			people[socket.id] = name;
 			console.log(name+' has joined');
 		});
@@ -79,7 +101,7 @@ io.on('connection', function(socket){
 });
 
 	function store_chat(name, msg){
-		pool.query('INSERT INTO heroku_7561fb31d51e918.messages (name, message) values ("'+name+'","'+msg+'")' , function(err,result){
+		pool.query('INSERT INTO messages (name, message) values ("'+name+'","'+msg+'")' , function(err,result){
 			if(err){
 				console.log('insert query error');
 			}else{

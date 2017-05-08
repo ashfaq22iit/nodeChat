@@ -105,7 +105,7 @@ input#join {
 
 <div class="caption"><h2>NodeJs Chat - Alive5 Demo</h1></div>
 <div id="wrapper">
-
+<div class="messageList"
     <div id="menu">
         <p class="welcome"> <b></b></p>
         <p></p>
@@ -127,7 +127,11 @@ input#join {
         <input type="text" id="name" placeholder="What's your name?" />
         <input type="submit"  id="join" value="Join" />
     </div>
-        
+</div>
+    <div class="list">
+        <div class="" id="userList">
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
 // jQuery Document
@@ -183,7 +187,13 @@ var socket = io();
         ready = true;
       }
     });
-
+ socket.on('userList',function(list){
+     console.log('list', list);
+     for(var i=0; i<list.length; i++){
+         var user = '<p id="'+list[i].socket_id+'">'+list[i].name+'</p>';
+         $('#userList').append(user);
+     }
+ })
   socket.on('chatHistory',function(rows){
     console.log('chatHistory emitted successfully.');
     console.log('Length: ', rows.length);
