@@ -201,25 +201,6 @@ var socket = io();
         for(var i=0; i<rows.length; i++){
             console.log('name: ',rows[i]['name']+': '+rows[i]['message']);
             var msg = '<span style="font-weight: bold;font-size: 13px;">'+ rows[i]['name']+'</span> : <span +class"message"  style="font-size: 10px;">'+rows[i]['message']+'</span>';
-
-            // var msgHtml = '<div class="media chatmsg">'
-            //         +'<div class="media-body">'
-            //             +'<div class="media">'
-            //                 +'<a class="pull-left" href="#">'
-            //                     //+'<img class="media-object img-circle " src="assets/img/user.png" />'
-            //                 +'</a>'
-            //                 +'<div class="media-body" >'
-            //                 +msg
-            //                     //+'<br />'
-            //                    //+'<small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>'
-            //                     +'<hr />'
-            //                 +'</div>'
-            //             +'</div>'
-
-            //         +'</div>'
-            //     +'</div>';
-            // $('#messages').append(msgHtml);
-
             var msg = '<p>'+msg+'</p>';
             $('#chatbox').append(msg);
             //scroll chat to last message

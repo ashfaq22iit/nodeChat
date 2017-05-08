@@ -84,7 +84,21 @@ io.on('connection', function(socket){
 			people[socket.id] = name;
 			console.log(name+' has joined');
 		});
+	
+	socket.on('getConverstion' , function(data){
+		let sender = data.sender+':'+data.recevier;
+		let recevier = data.recevier+':'+data.sender;
+		pool.query('SELECT * FROM messages WHERE toFrom IN ('+sender +', '+recevier+')' , function(err,result){
 
+		})
+	});
+	// socket.on('send-newMsg', function(data){
+	// 	let sender = data.sender+':'+data.recevier;
+	// 	let recevier = data.recevier+':'+data.sender;
+	// 	pool.query('SELECT * FROM messages WHERE thread IN ('+sender +', '+recevier+')' , function(err,result){
+
+	// 	})
+	// })
 	socket.on('disconnect', function(){
 		console.log('user is disconnected');	
 	});
@@ -101,7 +115,8 @@ io.on('connection', function(socket){
 });
 
 	function store_chat(name, msg){
-		pool.query('INSERT INTO messages (name, message) values ("'+name+'","'+msg+'")' , function(err,result){
+		let id = 3+':'+1;
+		pool.query('INSERT INTO messages (name, message , toFrom) values ("'+name+'","'+msg+'", "'+id+'" )' , function(err,result){
 			if(err){
 				console.log('insert query error');
 			}else{
